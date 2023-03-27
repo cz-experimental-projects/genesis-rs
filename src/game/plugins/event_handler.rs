@@ -1,7 +1,7 @@
 use bevy::prelude::{Plugin, EventReader, Commands, IntoSystemConfig, in_state, BuildChildren, GlobalTransform, Visibility, ComputedVisibility};
 use bevy_prototype_lyon::{prelude::*, shapes::Circle};
 
-use crate::{game::{events::new_organism::NewOrganismEvent, components::{organism::OrganismTag, gene::{Gene, Shape}}}, AppState};
+use crate::{game::{events::new_organism::NewOrganismEvent, components::{gene::{Gene, Shape}, tags::MacroOrganismTag}}, AppState};
 
 pub struct GenesisEventHandlerPlugin;
 impl Plugin for GenesisEventHandlerPlugin {
@@ -14,11 +14,12 @@ impl Plugin for GenesisEventHandlerPlugin {
 fn add_organism(mut commands: Commands, mut event: EventReader<NewOrganismEvent>) {
     for ev in event.iter() {
         commands.spawn((
-            OrganismTag,
+            MacroOrganismTag,
             GlobalTransform::default(),
             ev.transform,
             Visibility::default(),
             ComputedVisibility::default(),
+            ev.organism.clone(),
         )).with_children(|parent| {
             for organ in &ev.organism.organs {
                 let mut organ_entity = parent.spawn(organ.dna.clone());

@@ -1,6 +1,6 @@
 use bevy::prelude::Transform;
 
-use crate::game::components::organism::{Organs, Organ};
+use crate::game::components::organisms::macro_organism::{Organs, Organ};
 
 #[derive(Default, Debug)]
 pub struct NewOrganismEvent {

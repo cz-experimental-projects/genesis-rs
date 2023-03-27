@@ -16,6 +16,7 @@ enum AppState {
 
 fn main() {
     App::new()
+        .insert_resource(ClearColor(Color::BLACK))
         .add_state::<AppState>()
         .add_plugins(DefaultPlugins)
         .add_plugin(TweeningPlugin)

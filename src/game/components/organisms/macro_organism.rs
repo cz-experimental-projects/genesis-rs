@@ -1,6 +1,6 @@
 use bevy::prelude::Component;
 
-use super::gene::Gene;
+use crate::game::components::gene::Gene;
 
 #[derive(Clone, Debug, Default)]
 pub enum OrganType {
@@ -42,6 +42,3 @@ impl DNA {
         }
     }
 }
-
-#[derive(Component)]
-pub struct OrganismTag;

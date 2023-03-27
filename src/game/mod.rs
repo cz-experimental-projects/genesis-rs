@@ -8,24 +8,28 @@ use bevy_prototype_lyon::prelude::*;
 
 use crate::AppState;
 
-use self::{plugins::{cam::GenesisCameraControlPlugin, evt::GenesisEventHandlerPlugin}, events::new_organism::NewOrganismEvent, components::{organism::{Organ, OrganType, DNA}, gene::{Gene, Shape}}};
+use self::{plugins::{camera_control::GenesisCameraControlPlugin, event_handler::GenesisEventHandlerPlugin, state_transition::GenesisGameStateTransitionPlugin}, events::new_organism::NewOrganismEvent, components::{organisms::macro_organism::{Organ, OrganType, DNA}, gene::{Gene, Shape}}};
 
 #[derive(States, Default, Debug, Clone, Copy, Hash, PartialEq, Eq)]
 pub enum GameState {
     #[default]
     Macroworld,
     Microworld,
-    Organism,
 }
+
+#[derive(Resource)]
+pub struct IsMouseOverUI(bool);
 
 pub struct GenesisGamePlugin;
 impl Plugin for GenesisGamePlugin {
     fn build(&self, app: &mut App) {
         app.insert_resource(Msaa::Sample4);
+        app.insert_resource(IsMouseOverUI(false));
         app.add_state::<GameState>();
         app.add_plugin(ShapePlugin);
         app.add_plugin(GenesisCameraControlPlugin);
         app.add_plugin(GenesisEventHandlerPlugin);
+        app.add_plugin(GenesisGameStateTransitionPlugin);
         app.add_system(test.run_if(in_state(AppState::Game)));
     }
 }
