@@ -8,7 +8,7 @@ use bevy_prototype_lyon::prelude::*;
 
 use crate::AppState;
 
-use self::{plugins::{camera_control::GenesisCameraControlPlugin, event_handler::GenesisEventHandlerPlugin, state_transition::GenesisGameStateTransitionPlugin}, events::new_organism::NewOrganismEvent, components::{organisms::macro_organism::{Organ, OrganType, DNA}, gene::{Gene, Shape}}};
+use self::{plugins::{camera_control::GenesisCameraControlPlugin, event_handler::GenesisEventHandlerPlugin, state_transition::GenesisGameStateTransitionPlugin}, events::new_organism::NewMacroOrganismEvent, components::{organisms::macro_organism::{Organ, OrganType}, gene::{Gene, Shape, DNA}}};
 
 #[derive(States, Default, Debug, Clone, Copy, Hash, PartialEq, Eq)]
 pub enum GameState {
@@ -34,12 +34,12 @@ impl Plugin for GenesisGamePlugin {
     }
 }
 
-fn test(mut evt_writer: EventWriter<NewOrganismEvent>, input: Res<Input<KeyCode>>) {
+fn test(mut evt_writer: EventWriter<NewMacroOrganismEvent>, input: Res<Input<KeyCode>>) {
     if input.just_pressed(KeyCode::G) {
-        evt_writer.send(NewOrganismEvent::new(vec![
+        evt_writer.send(NewMacroOrganismEvent::new(vec![
             Organ { 
                 dna: DNA::new(vec![Gene::Shape(Shape::Circle(20.0)), Gene::Color(Color::RED)]), 
-                organ_type: OrganType::InformationProcessing 
+                organ_type: OrganType::default(),
             }
         ]));
     }

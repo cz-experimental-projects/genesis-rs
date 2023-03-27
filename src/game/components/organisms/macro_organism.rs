@@ -1,6 +1,6 @@
 use bevy::prelude::Component;
 
-use crate::game::components::gene::Gene;
+use crate::game::components::gene::DNA;
 
 #[derive(Clone, Debug, Default)]
 pub enum OrganType {
@@ -26,19 +26,6 @@ impl Organs {
     pub fn new(organs: Vec<Organ>) -> Organs {
         Self {
             organs
-        }
-    }
-}
-
-#[derive(Component, Clone, Debug, Default)]
-pub struct DNA {
-    pub dna: Vec<Gene>
-}
-
-impl DNA {
-    pub fn new(dna: Vec<Gene>) -> DNA {
-        Self {
-            dna
         }
     }
 }
