@@ -8,8 +8,8 @@ impl Plugin for GenesisGameStateTransitionPlugin {
         app.add_system(check_transition.run_if(in_state(AppState::Game)));
         app.add_system(despawn_macro_organisms.in_schedule(OnExit(GameState::Macroworld)));
         app.add_system(spawn_macro_organisms.in_schedule(OnEnter(GameState::Macroworld)));
-        app.add_system(despawn_micro_organisms.in_schedule(OnExit(GameState::Macroworld)));
-        app.add_system(spawn_micro_organisms.in_schedule(OnEnter(GameState::Macroworld)));
+        app.add_system(despawn_micro_organisms.in_schedule(OnExit(GameState::Microworld)));
+        app.add_system(spawn_micro_organisms.in_schedule(OnEnter(GameState::Microworld)));
     }
 }
 
