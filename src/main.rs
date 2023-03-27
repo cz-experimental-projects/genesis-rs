@@ -1,31 +1,34 @@
 use bevy::prelude::*;
 use bevy_inspector_egui::quick::WorldInspectorPlugin;
-use bevy_prototype_lyon::prelude::*;
+use bevy_tweening::TweeningPlugin;
+use game::{GenesisGamePlugin, ui::GenesisUIPlugin, components::tags::MainCameraTag};
+
+mod game;
+mod utils;
+
+#[derive(States, Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]
+enum AppState {
+    #[default]
+    MainMenu,
+    Game,
+    PausedMenu,
+}
 
 fn main() {
     App::new()
-        .insert_resource(Msaa::Sample4)
+        .add_state::<AppState>()
         .add_plugins(DefaultPlugins)
+        .add_plugin(TweeningPlugin)
         .add_plugin(WorldInspectorPlugin::new())
-        .add_plugin(ShapePlugin)
-        .add_startup_system(setup_system)
+        .add_plugin(GenesisGamePlugin)
+        .add_plugin(GenesisUIPlugin)
+        .add_startup_system(setup_cam)
         .run();
 }
 
-fn setup_system(mut commands: Commands) {
-    let shape = shapes::RegularPolygon {
-        sides: 6,
-        feature: shapes::RegularPolygonFeature::Radius(200.0),
-        ..shapes::RegularPolygon::default()
-    };
-
-    commands.spawn(Camera2dBundle::default());
+fn setup_cam(mut commands: Commands) {
     commands.spawn((
-        ShapeBundle {
-            path: GeometryBuilder::build_as(&shape),
-            ..default()
-        },
-        Fill::color(Color::CYAN),
-        Stroke::new(Color::BLACK, 10.0),
+        Camera2dBundle::default(),
+        MainCameraTag,
     ));
 }
