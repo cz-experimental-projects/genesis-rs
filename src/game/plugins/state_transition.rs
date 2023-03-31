@@ -1,6 +1,6 @@
-use bevy::prelude::{Plugin, Query, OrthographicProjection, With, IntoSystemConfig, in_state, Res, State, Commands, NextState, Entity, IntoSystemAppConfig, OnExit, Visibility, OnEnter};
+use bevy::prelude::{Plugin, Query, OrthographicProjection, With, IntoSystemConfig, in_state, Res, State, Commands, NextState, Entity, IntoSystemAppConfig, OnExit, Visibility, OnEnter, DespawnRecursiveExt};
 
-use crate::{game::{components::tags::{MainCameraTag, MacroOrganismTag, MicroOrganismTag}, GameState}, AppState};
+use crate::{game::{components::{tags::{MainCameraTag, MacroOrganismTag, MicroOrganismTag}, organisms::macro_organism::Organs, gene::{Gene, Shape}}, GameState}, AppState};
 
 pub struct GenesisGameStateTransitionPlugin;
 impl Plugin for GenesisGameStateTransitionPlugin {
@@ -50,13 +50,21 @@ fn spawn_macro_organisms(mut commands: Commands, organisms: Query<Entity, With<M
 fn despawn_micro_organisms(mut commands: Commands, organisms: Query<Entity, With<MicroOrganismTag>>) {
     for entity in organisms.iter() {
         commands.entity(entity)
-            .insert(Visibility::Hidden);
+            .despawn_recursive();
     }
 }
 
-fn spawn_micro_organisms(mut commands: Commands, organisms: Query<Entity, With<MicroOrganismTag>>) {
-    for entity in organisms.iter() {
-        commands.entity(entity)
-            .insert(Visibility::default());
+fn spawn_micro_organisms(mut commands: Commands, organisms: Query<&Organs, With<MacroOrganismTag>>) {
+    for organism in organisms.iter() {
+        for organ in &organism.organs {
+            for gene in &organ.dna.dna {
+                if let Gene::Shape(shape) = gene {
+                    match shape {
+                        Shape::Circle(radius) => todo!(),
+                        Shape::Polygon(sides, radius) => todo!(),
+                    }
+                }
+            }
+        }
     }
 }

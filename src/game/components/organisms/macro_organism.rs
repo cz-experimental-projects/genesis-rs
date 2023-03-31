@@ -11,7 +11,7 @@ pub enum OrganType {
     Sensory,
 }
 
-#[derive(Component, Clone, Debug, Default)]
+#[derive(Clone, Debug, Default)]
 pub struct Organ {
     pub dna: DNA,
     pub organ_type: OrganType,

@@ -1,4 +1,4 @@
-use bevy::prelude::{Component, Color};
+use bevy::prelude::{Component, Color, Vec3};
 
 use crate::game::components::gene::{DNA, Gene, Shape};
 
@@ -57,4 +57,8 @@ impl Cells {
             cells,
         }
     }
+}
+
+pub fn transform_location(macro_position: Vec3) -> Vec3 {
+    10.0 * macro_position
 }
